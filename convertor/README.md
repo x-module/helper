@@ -22,4 +22,6 @@ import "github.com/x-module/utils/strutil"
 -   **<big>DecodeByte</big>** : 解码字节切片到目标对象，目标对象需要传入一个指针实例。
 -   **<big>TransInterfaceToStruct</big>** : 将 interface 类型转换为 struct 类型。
 -   **<big>FormatFileSize</big>** : 格式化文件大小，将字节数转换为可读的文件大小。
+-   **<big> ByteToHex </big>** : byte转16进制字符串。
+-   **<big> HexToBye  </big>** : 16进制字符串转[]byte。
 - 

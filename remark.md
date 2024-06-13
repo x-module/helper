@@ -1,12 +1,7 @@
-https://github.com/Goldziher/go-utils?tab=readme-ov-file
-
-
-
 
 https://github.com/juju/utils
 https://github.com/projectdiscovery/utils
 https://github.com/kakuilan/kgo
-https://github.com/billmi/go-utils
 https://github.com/UlricQin/goutils
 https://github.com/kirinlabs/utils
 https://github.com/zhiqiangxu/util

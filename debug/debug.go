@@ -8,8 +8,14 @@
 
 package debug
 
-import "github.com/x-module/helper/json"
+import (
+	"fmt"
+	"github.com/x-module/helper/json"
+)
 
+// Display 调试输出
 func Display(params any) {
+	fmt.Println("----------------------- debug start ------------------------")
 	json.MarshalToString(params)
+	fmt.Println("----------------------- debug end --------------------------")
 }
