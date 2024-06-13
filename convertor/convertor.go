@@ -10,8 +10,10 @@ package convertor
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/binary"
 	"encoding/gob"
+	"encoding/hex"
 	"fmt"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/x-module/helper/json"
@@ -283,4 +285,128 @@ func HexToBye(hex string) []byte {
 		slice[i] = byte(value & 0xFF)
 	}
 	return slice
+}
+
+// StrToInt string转int
+func StrToInt(v string) int {
+	i, err := strconv.Atoi(v)
+	if err != nil {
+		return 0
+	}
+	return i
+}
+
+// StrToInt8 string转int8
+func StrToInt8(v string) int8 {
+	i, err := strconv.ParseInt(v, 10, 8)
+	if err != nil {
+		return 0
+	}
+	return int8(i)
+}
+
+// StrToInt16 string转int16
+func StrToInt16(v string) int16 {
+	i, err := strconv.ParseInt(v, 10, 16)
+	if err != nil {
+		return 0
+	}
+	return int16(i)
+}
+
+// StrToInt32 string转int32
+func StrToInt32(v string) int32 {
+	i, err := strconv.ParseInt(v, 10, 32)
+	if err != nil {
+		return 0
+	}
+	return int32(i)
+}
+
+// StrToInt64 string转int64
+func StrToInt64(v string) int64 {
+	i, err := strconv.ParseInt(v, 10, 64)
+	if err != nil {
+		return 0
+	}
+	return i
+}
+
+// dec2Bin 将十进制转换为二进制字符串.
+func dec2Bin(num int64) string {
+	return strconv.FormatInt(num, 2)
+}
+
+// bin2Dec 将二进制字符串转换为十进制.
+func bin2Dec(str string) (int64, error) {
+	i, err := strconv.ParseInt(str, 2, 0)
+	if err != nil {
+		return 0, err
+	}
+	return i, nil
+}
+
+// hex2Bin 将十六进制字符串转换为二进制字符串.
+func hex2Bin(str string) (string, error) {
+	i, err := strconv.ParseInt(str, 16, 0)
+	if err != nil {
+		return "", err
+	}
+	return strconv.FormatInt(i, 2), nil
+}
+
+// bin2Hex 将二进制字符串转换为十六进制字符串.
+func bin2Hex(str string) (string, error) {
+	i, err := strconv.ParseInt(str, 2, 0)
+	if err != nil {
+		return "", err
+	}
+	return strconv.FormatInt(i, 16), nil
+}
+
+// dec2Hex 将十进制转换为十六进制.
+func dec2Hex(num int64) string {
+	return strconv.FormatInt(num, 16)
+}
+
+// hex2Dec 将十六进制转换为十进制.
+func hex2Dec(str string) (int64, error) {
+	start := 0
+	if len(str) > 2 && str[0:2] == "0x" {
+		start = 2
+	}
+
+	// bitSize 表示结果的位宽（包括符号位），0 表示最大位宽
+	return strconv.ParseInt(str[start:], 16, 0)
+}
+
+// hex2Byte 16进制字符串转字节切片.
+func hex2Byte(str string) ([]byte, error) {
+	start := 0
+	if len(str) > 2 && str[0:2] == "0x" {
+		start = 2
+	}
+
+	h, e := hex.DecodeString(str[start:])
+	return h, e
+}
+
+// dec2Oct 将十进制转换为八进制.
+func dec2Oct(num int64) string {
+	return strconv.FormatInt(num, 8)
+}
+
+// oct2Dec 将八进制转换为十进制.
+func oct2Dec(str string) (int64, error) {
+	start := 0
+	if len(str) > 1 && str[0:1] == "0" {
+		start = 1
+	}
+
+	return strconv.ParseInt(str[start:], 8, 0)
+}
+
+// Img2Base64 将图片字节转换为base64字符串.imgType为图片扩展名.
+func Img2Base64(content []byte, imgType string) string {
+	return fmt.Sprintf("data:image/%s;base64,%s", imgType, base64.StdEncoding.EncodeToString(content))
 }

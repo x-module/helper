@@ -8,11 +8,18 @@
 
 package catch
 
-import "runtime/debug"
+import (
+	"github.com/x-module/helper/xlog"
+	"runtime/debug"
+)
+
+const (
+	SystemErr = "system error"
+)
 
 // Recover 捕获异常
-func Recover(logger runtime.Logger) {
+func Recover(logger xlog.LogInter) {
 	if err := recover(); err != nil {
-		logger.WithField("err", err).WithField("trace", string(debug.Stack())).Error(global.SystemErr.String())
+		logger.WithField("err", err).WithField("trace", string(debug.Stack())).Error(SystemErr)
 	}
 }

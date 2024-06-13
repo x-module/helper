@@ -23,3 +23,4 @@ import "github.com/x-module/utils/strutil"
 - **<big>SnakeCase</big>** : 将字符串转换为 snake_case 形式, 非字母和数字会被忽略。
 - **<big>UpperSnakeCase</big>** : 将字符串转换为大写 SNAKE_CASE 形式, 非字母和数字会被忽略。
 - **<big>Substring</big>** : 根据指定的位置和长度截取子字符串。
+- **<big>SimilarText</big>** : 计算两个字符串的相似度。

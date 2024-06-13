@@ -81,9 +81,6 @@ func MarshalToString(data any) {
 }
 
 // Marshal 序列化为字节
-
-// todo 支持传入多个配置
-
 func Marshal(data any, config ...jsoniter.Config) ([]byte, error) {
 	conf := getConfig(config...).Froze()
 	if s, err := conf.Marshal(data); err == nil {
