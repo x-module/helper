@@ -8,18 +8,32 @@
 
 package xlog
 
+import (
+	"github.com/sirupsen/logrus"
+)
+
 // LogInter 日志接口
 type LogInter interface {
-	// WithField 添加字段
-	WithField(key string, value any) LogInter
 	// Debug 调试日志
-	Debug(format string, args ...any)
+	Debug(args ...any)
 	// Info 信息日志
-	Info(format string, args ...any)
+	Info(args ...any)
 	// Warn 警告日志
-	Warn(format string, args ...any)
+	Warn(args ...any)
 	// Error 错误日志
-	Error(format string, args ...any)
+	Error(args ...any)
 	// Fatal 致命错误日志
-	Fatal(format string, args ...any)
+	Fatal(args ...any)
+	// WithField 添加字段
+	WithField(key string, value any) *logrus.Entry
 }
+
+//
+// // Interface logger interface
+// type Interface interface {
+// 	LogMode(LogLevel) Interface
+// 	Info(context.Context, string, ...interface{})
+// 	Warn(context.Context, string, ...interface{})
+// 	Error(context.Context, string, ...interface{})
+// 	Trace(ctx context.Context, begin time.Time, fc func() (sql string, rowsAffected int64), err error)
+// }

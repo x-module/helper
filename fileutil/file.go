@@ -17,7 +17,6 @@ import (
 	"io/fs"
 	"net/http"
 	"os"
-	"path"
 	"path/filepath"
 	"strings"
 )
@@ -47,7 +46,7 @@ func CreateFile(path string) bool {
 
 // CreateDir 在绝对路径下创建目录。参数' absPath '像/a/， /a/b/。
 func CreateDir(absPath string) error {
-	return os.MkdirAll(path.Dir(absPath), os.ModePerm)
+	return os.MkdirAll(absPath, os.ModePerm)
 }
 
 // IsDir 检查路径是否为directory。
