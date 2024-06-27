@@ -192,7 +192,7 @@ import "github.com/x-module/helper/json "
 import "github.com/x-module/helper/maputil "
 ```
 #### Function list
--   **<big>ForEach</big>** : 对 map 中的每对 key 和 value 执行 iteratee 函数。
+-   **<big>Foreach</big>** : 对 map 中的每对 key 和 value 执行 iteratee 函数。
 -   **<big>Filter</big>** : 迭代 map 中的每对 key 和 value，返回 map，其中的 key 和 value 符合 predicate 函数。
 -   **<big>Intersect</big>** : 多个 map 的交集操作。
 -   **<big>Keys</big>** : 返回 map 中所有 key 组成的切片。
@@ -310,7 +310,7 @@ import "github.com/x-module/helper/sliceutil "
 - **<big>UnionBy</big>** :  类似于Union，但它接受intersection，每个slice的每个元素都会被调用。
 -  **<big>FlattenDeep</big>** : 将多维切片递归展平到一层。
 - **<big>Intersection</big>** :  创建一个包含所有切片的唯一元素的切片。
--  **<big>ForEach</big>** : 遍历切片的元素并为每个元素调用iteratee函数。
+-  **<big>Foreach</big>** : 遍历切片的元素并为每个元素调用iteratee函数。
 - **<big>Reverse</big>** :  返回元素顺序的slice。
 -  **<big>GroupBy</big>** : 迭代切片的元素，每个元素将按条件分组，返回两个切片。
 - **<big>Shuffle </big>** : 洗牌切片。

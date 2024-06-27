@@ -5,7 +5,7 @@ import "github.com/x-module/utils/maputil"
 ```
 
 #### 函数列表:
--   **<big>ForEach</big>** : 对 map 中的每对 key 和 value 执行 iteratee 函数。
+-   **<big>Foreach</big>** : 对 map 中的每对 key 和 value 执行 iteratee 函数。
 -   **<big>Filter</big>** : 迭代 map 中的每对 key 和 value，返回 map，其中的 key 和 value 符合 predicate 函数。
 -   **<big>Intersect</big>** : 多个 map 的交集操作。
 -   **<big>Keys</big>** : 返回 map 中所有 key 组成的切片。

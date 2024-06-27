@@ -23,8 +23,8 @@ func Merge[K comparable, V any](maps ...map[K]V) map[K]V {
 	return result
 }
 
-// ForEach 对map中的每个键和值对执行迭代函数
-func ForEach[K comparable, V any](m map[K]V, iteratee func(key K, value V)) {
+// Foreach 对map中的每个键和值对执行迭代函数
+func Foreach[K comparable, V any](m map[K]V, iteratee func(key K, value V)) {
 	for k, v := range m {
 		iteratee(k, v)
 	}

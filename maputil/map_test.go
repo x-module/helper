@@ -34,8 +34,8 @@ func TestMerge(t *testing.T) {
 	assert.Equal(expected, result)
 }
 
-func TestForEach(t *testing.T) {
-	assert := internal.NewAssert(t, "TestForEach")
+func TestForeach(t *testing.T) {
+	assert := internal.NewAssert(t, "TestForeach")
 	m := map[string]int{
 		"a": 1,
 		"b": 2,
@@ -43,7 +43,7 @@ func TestForEach(t *testing.T) {
 		"d": 4,
 	}
 	var sum int
-	ForEach(m, func(_ string, value int) {
+	Foreach(m, func(_ string, value int) {
 		sum += value
 	})
 	assert.Equal(10, sum)
