@@ -54,8 +54,8 @@ func Difference[T comparable](slice, comparedSlice []T) []T {
 
 // DifferenceBy 它接受为slice的每个元素调用的iteratee和值来生成比较它们的标准。
 func DifferenceBy[T comparable](slice []T, comparedSlice []T, iteratee func(index int, item T) T) []T {
-	originSliceAfterMap := Foreach(slice, iteratee)
-	comparedSliceAfterMap := Foreach(comparedSlice, iteratee)
+	originSliceAfterMap := Every(slice, iteratee)
+	comparedSliceAfterMap := Every(comparedSlice, iteratee)
 	result := make([]T, 0)
 	for i, v := range originSliceAfterMap {
 		if !slices.Contains(comparedSliceAfterMap, v) {
@@ -202,13 +202,20 @@ func FindLast[T any](slice []T, predicate func(index int, item T) bool) (*T, boo
 	return &slice[index], true
 }
 
-// Foreach 通过运行slice thru迭代函数的每个元素来创建一个值片。
-func Foreach[T any, U any](slice []T, iteratee func(index int, item T) U) []U {
+// Every 通过运行slice thru迭代函数的每个元素来创建一个值片。
+func Every[T any, U any](slice []T, iteratee func(index int, item T) U) []U {
 	result := make([]U, len(slice), cap(slice))
 	for i, v := range slice {
 		result[i] = iteratee(i, v)
 	}
 	return result
+}
+
+// Foreach 通过运行slice thru迭代函数的每个元素来创建一个值片。
+func Foreach[T any](slice []T, iteratee func(index int, item T)) {
+	for i, v := range slice {
+		iteratee(i, v)
+	}
 }
 
 // Replace 返回切片的副本，其中旧的前n个不重叠的实例替换为new。

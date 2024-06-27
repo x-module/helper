@@ -19,10 +19,10 @@ import (
 )
 
 const (
-	NUMERAL       = "0123456789"
-	LOWER_LETTERS = "abcdefghijklmnopqrstuvwxyz"
-	UPPER_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	LETTERS       = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	NUMERAL      = "0123456789"
+	LowerLetters = "abcdefghijklmnopqrstuvwxyz"
+	UpperLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	LETTERS      = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )
 
 // RandInt 在min和max之间生成随机整数，可能是min，而不是max。
@@ -55,12 +55,12 @@ func RandString(length int) string {
 
 // RandUpper 生成一个随机大写字符串。
 func RandUpper(length int) string {
-	return random(UPPER_LETTERS, length)
+	return random(UpperLetters, length)
 }
 
 // RandLower 生成一个随机小写字符串。
 func RandLower(length int) string {
-	return random(LOWER_LETTERS, length)
+	return random(LowerLetters, length)
 }
 
 // RandNumeral 生成指定长度的随机数字字符串。

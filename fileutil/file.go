@@ -331,3 +331,8 @@ func MiMeType(file any) string {
 	}
 	return mediatype
 }
+
+// WriteFile 写入文件
+func WriteFile(file string, content string) error {
+	return os.WriteFile(file, []byte(content), 0666)
+}
