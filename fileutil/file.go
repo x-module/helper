@@ -11,6 +11,7 @@ package fileutil
 import (
 	"archive/zip"
 	"bufio"
+	"encoding/csv"
 	"errors"
 	"fmt"
 	"io"
@@ -335,4 +336,15 @@ func MiMeType(file any) string {
 // WriteFile 写入文件
 func WriteFile(file string, content string) error {
 	return os.WriteFile(file, []byte(content), 0666)
+}
+
+// ReadCSV 读取csv数据
+func ReadCSV(fileName string) ([][]string, error) {
+	file, err := os.Open(fileName)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	reader := csv.NewReader(file)
+	return reader.ReadAll()
 }

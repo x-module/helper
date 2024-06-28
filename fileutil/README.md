@@ -22,3 +22,4 @@ import "github.com/x-module/utils/fileutil"
 -   **<big>Zip</big>** : zip 压缩文件, 参数可以是文件或目录。
 -   **<big>UnZip</big>** : zip 解压缩文件并保存在目录中。
 -   **<big>WriteFile</big>** : 写入文件。
+-   **<big>ReadCSV</big>** : 读取csv 数据。
