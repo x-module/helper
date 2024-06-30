@@ -14,6 +14,8 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
+	"golang.org/x/text/encoding/simplifiedchinese"
+	"golang.org/x/text/transform"
 	"io"
 	"io/fs"
 	"net/http"
@@ -345,6 +347,10 @@ func ReadCSV(fileName string) ([][]string, error) {
 		return nil, err
 	}
 	defer file.Close()
-	reader := csv.NewReader(file)
+	reader1 := transform.NewReader(file, simplifiedchinese.GBK.NewDecoder())
+	reader := csv.NewReader(reader1)
+	reader.Comma = ','       //添加
+	reader.LazyQuotes = true //添加
+	reader.FieldsPerRecord = -1
 	return reader.ReadAll()
 }

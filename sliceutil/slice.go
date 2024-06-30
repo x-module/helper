@@ -434,3 +434,14 @@ func ToMap[T any, U comparable](slice []T, iteratee func(index int, item T) U) m
 	}
 	return result
 }
+
+func Compact[T comparable](slice []T) []T {
+	var zero T
+	result := []T{}
+	for _, v := range slice {
+		if v != zero {
+			result = append(result, v)
+		}
+	}
+	return result
+}
