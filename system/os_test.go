@@ -1,9 +1,10 @@
 package system
 
 import (
-	"github.com/x-module/helper/internal"
 	"strings"
 	"testing"
+
+	"github.com/x-module/utils/utils/internal"
 )
 
 func TestOsDetection(t *testing.T) {

@@ -272,3 +272,19 @@ func SimilarText(str1, str2 string, len1, len2 int) int {
 	}
 	return sum
 }
+
+func Replace(source string, targets []string, replace []string) string {
+	if len(targets) == 0 || len(replace) == 0 {
+		return source
+	}
+	if len(targets) == len(replace) {
+		for key, target := range targets {
+			source = strings.Replace(source, target, replace[key], -1)
+		}
+	} else {
+		for _, target := range targets {
+			source = strings.Replace(source, target, replace[0], -1)
+		}
+	}
+	return source
+}

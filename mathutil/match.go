@@ -21,3 +21,14 @@ func Average[T constraints.Integer | constraints.Float](numbers ...T) T {
 	}
 	return sum / n
 }
+
+// Max 返回最大值
+func Max[T constraints.Integer | constraints.Float](numbers []T) T {
+	var maxNum T
+	for _, v := range numbers {
+		if v > maxNum {
+			maxNum = v
+		}
+	}
+	return maxNum
+}
