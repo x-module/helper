@@ -6,26 +6,17 @@
  * @desc   login.go
  */
 
-package auth
+package nakama
 
 import (
 	"crypto"
 	"errors"
 	"fmt"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/x-module/helper/components/nakama/common"
 	"github.com/x-module/helper/components/request"
 	"github.com/x-module/helper/xlog"
 	"time"
 )
-
-// LoginToken 身份验证token
-type LoginToken struct {
-	Token string   `json:"token"`
-	Uname string   `json:"uname"`
-	Email string   `json:"email"`
-	Role  UserRole `json:"role"`
-}
 
 type ConsoleTokenClaims struct {
 	Username  string   `json:"usn,omitempty"`
@@ -46,25 +37,6 @@ const ExpireToken = 3
 
 type UserRole int32
 
-type Auth struct {
-	common.NakamaApi
-	userName string
-	password string
-	host     string
-	model    xlog.LogMode
-	signKey  string
-}
-
-func NewAuth(userName string, password string, host string, signKey string, model xlog.LogMode) *Auth {
-	auth := new(Auth)
-	auth.userName = userName
-	auth.password = password
-	auth.host = host
-	auth.model = model
-	auth.signKey = signKey
-	return auth
-}
-
 // Valid 校验
 func (stc *ConsoleTokenClaims) Valid() error {
 	// Verify expiry.
@@ -78,7 +50,7 @@ func (stc *ConsoleTokenClaims) Valid() error {
 }
 
 // 解析token
-func (a *Auth) parseConsoleToken(hmacSecretByte []byte, tokenString string) (username, email string, role UserRole, exp int64, ok bool) {
+func (n *Api) parseConsoleToken(hmacSecretByte []byte, tokenString string) (username, email string, role UserRole, exp int64, ok bool) {
 	token, err := jwt.ParseWithClaims(tokenString, &ConsoleTokenClaims{}, func(token *jwt.Token) (any, error) {
 		if s, ok := token.Method.(*jwt.SigningMethodHMAC); !ok || s.Hash != crypto.SHA256 {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -96,17 +68,17 @@ func (a *Auth) parseConsoleToken(hmacSecretByte []byte, tokenString string) (use
 }
 
 // token 检测
-func (a *Auth) testToken(loginToken LoginToken) (int, error) {
-	token, err := jwt.Parse(loginToken.Token, func(token *jwt.Token) (any, error) {
+func (n *Api) testToken() (int, error) {
+	token, err := jwt.Parse(n.Token.Token, func(token *jwt.Token) (any, error) {
 		if s, ok := token.Method.(*jwt.SigningMethodHMAC); !ok || s.Hash != crypto.SHA256 {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte(a.signKey), nil
+		return []byte(n.loginParams.SignKey), nil
 	})
 	if err != nil {
 		return InvalidToken, err
 	}
-	_, _, _, exp, ok := a.parseConsoleToken([]byte(a.signKey), loginToken.Token)
+	_, _, _, exp, ok := n.parseConsoleToken([]byte(n.loginParams.SignKey), n.Token.Token)
 	if !ok || !token.Valid {
 		// The token or its claims are invalid.
 		return InvalidToken, err
@@ -119,50 +91,53 @@ func (a *Auth) testToken(loginToken LoginToken) (int, error) {
 }
 
 // GetToken 获取身份token
-func (a *Auth) GetToken(loginToken LoginToken) (LoginToken, error) {
-	if loginToken.Token == "" {
-		token, err := a.login()
+func (n *Api) GetToken() (LoginToken, error) {
+	if n.Token.Token == "" {
+		token, err := n.Login(n.loginParams)
 		if err != nil {
 			return LoginToken{}, err
 		} else {
 			return token, err
 		}
 	} else {
-		_, err := a.testToken(loginToken)
+		_, err := n.testToken()
 		if err != nil {
-			// if checkResult == ExpireToken { // token过期
-			return a.GetToken(LoginToken{})
-			// }
-			// return LoginToken{}, err
+			n.Token = LoginToken{}
+			return n.GetToken()
 		} else {
-			return loginToken, err
+			return n.Token, err
 		}
 	}
 }
 
-// 登录操作
-func (a *Auth) login() (LoginToken, error) {
+// Login 登录操作
+func (n *Api) Login(params LoginParams) (LoginToken, error) {
+	n.loginParams = params
 	data := struct {
 		Username string `json:"username"`
 		Password string `json:"password"`
 	}{
-		Username: a.userName,
-		Password: a.password,
+		Username: params.UserName,
+		Password: params.Password,
 	}
 
-	url := fmt.Sprintf("%s/%s", a.host, common.AuthenticateApiUrl)
-	response, err := request.NewRequest().Debug(a.model == xlog.DebugMode).Json().SetTimeout(10).Post(url, data)
+	url := fmt.Sprintf("%s%s", n.host, AuthenticateApiUrl)
+	response, err := request.NewRequest().Debug(n.mode == xlog.DebugMode).Json().SetTimeout(10).Post(url, data)
 	if err != nil {
 		return LoginToken{}, err
 	}
+
 	defer response.Close()
 	if response.StatusCode() != 200 {
 		return LoginToken{}, errors.New("request nakama server error")
 	}
+
 	var loginToken LoginToken
 	err = response.Json(&loginToken)
 	if err != nil {
 		return LoginToken{}, err
 	}
+
+	n.Token = loginToken
 	return loginToken, nil
 }

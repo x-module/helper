@@ -6,18 +6,16 @@
  * @desc   count.go
  */
 
-package api
+package nakama
 
 import (
 	"errors"
-	"github.com/x-module/helper/components/nakama/common"
+	"fmt"
 	"github.com/x-module/helper/components/request"
+	"github.com/x-module/helper/xlog"
 	"time"
 )
 
-type Count struct {
-	common.NakamaApi
-}
 type CountResponse struct {
 	Nodes     []Node    `json:"nodes"`
 	Timestamp time.Time `json:"timestamp"`
@@ -35,14 +33,9 @@ type Node struct {
 	AvgOutputKbs   float64 `json:"avg_output_kbs"`
 }
 
-func NewCount(token string) *Count {
-	count := new(Count)
-	count.Token = token
-	return count
-}
-
-func (a *Count) GetGameServerInfo(apiUrl string, debug bool) (CountResponse, error) {
-	response, err := request.NewRequest().Debug(debug).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Get(apiUrl)
+func (n *Api) GetGameServerInfo() (CountResponse, error) {
+	url := fmt.Sprintf("%s%s", n.host, CountApi)
+	response, err := request.NewRequest().Debug(n.mode == xlog.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Get(url)
 	if err != nil {
 		return CountResponse{}, err
 	}

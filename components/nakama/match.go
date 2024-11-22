@@ -6,19 +6,15 @@
  * @desc   matche.go
  */
 
-package api
+package nakama
 
 import (
 	"errors"
-	"github.com/x-module/helper/components/nakama/common"
 	"github.com/x-module/helper/components/request"
 
 	"github.com/gin-gonic/gin"
 )
 
-type Match struct {
-	common.NakamaApi
-}
 type MatchList struct {
 	Matches []Matches `json:"matches"`
 }
@@ -29,12 +25,6 @@ type Matches struct {
 	Size          int    `json:"size"`
 	TickRate      int    `json:"tick_rate"`
 	HandlerName   string `json:"handler_name"`
-}
-
-func NewMatch(token string) *Match {
-	match := new(Match)
-	match.Token = token
-	return match
 }
 
 type MatchState struct {
@@ -50,8 +40,8 @@ type Presences struct {
 	Status      any    `json:"status"`
 }
 
-func (a *Match) GetMatchList(url string, mode string) (MatchList, error) {
-	response, err := request.NewRequest().Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Get(url)
+func (n *Api) GetMatchList(url string, mode string) (MatchList, error) {
+	response, err := request.NewRequest().Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Get(url)
 	if err != nil {
 		return MatchList{}, err
 	}
@@ -68,8 +58,8 @@ func (a *Match) GetMatchList(url string, mode string) (MatchList, error) {
 }
 
 // GetState 比赛状态
-func (a *Match) GetState(url string, mode string) (MatchState, error) {
-	response, err := request.NewRequest().Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Get(url)
+func (n *Api) GetState(url string, mode string) (MatchState, error) {
+	response, err := request.NewRequest().Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Get(url)
 	if err != nil {
 		return MatchState{}, err
 	}

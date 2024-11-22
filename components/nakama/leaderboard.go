@@ -6,21 +6,17 @@
  * @desc   leaderboard.go
  */
 
-package api
+package nakama
 
 import (
 	"errors"
 	"fmt"
-	"github.com/x-module/helper/components/nakama/common"
 	"github.com/x-module/helper/components/request"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
-type Leaderboard struct {
-	common.NakamaApi
-}
 type LeaderboardList struct {
 	Leaderboards []LeaderboardInfo `json:"leaderboards"`
 }
@@ -69,15 +65,9 @@ type Records struct {
 	MaxNumScore   int       `json:"max_num_score"`
 }
 
-func NewLeaderboard(token string) *Leaderboard {
-	leaderboard := new(Leaderboard)
-	leaderboard.Token = token
-	return leaderboard
-}
-
 // GetLeaderboardList 获取排行榜列表
-func (a *Leaderboard) GetLeaderboardList(url string, mode string) (LeaderboardList, error) {
-	response, err := request.NewRequest().Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Get(url)
+func (n *Api) GetLeaderboardList(url string, mode string) (LeaderboardList, error) {
+	response, err := request.NewRequest().Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Get(url)
 	if err != nil {
 		return LeaderboardList{}, err
 	}
@@ -95,8 +85,8 @@ func (a *Leaderboard) GetLeaderboardList(url string, mode string) (LeaderboardLi
 }
 
 // DeleteLeaderboard 删除排行榜
-func (a *Leaderboard) DeleteLeaderboard(url string, mode string) error {
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Delete(url)
+func (n *Api) DeleteLeaderboard(url string, mode string) error {
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Delete(url)
 	if err != nil {
 		return err
 	}
@@ -109,8 +99,8 @@ func (a *Leaderboard) DeleteLeaderboard(url string, mode string) error {
 }
 
 // GetLeaderboardDetail 获取排行榜详情
-func (a *Leaderboard) GetLeaderboardDetail(url string, mode string) (LeaderboardInfo, error) {
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Get(url)
+func (n *Api) GetLeaderboardDetail(url string, mode string) (LeaderboardInfo, error) {
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Get(url)
 	if err != nil {
 		return LeaderboardInfo{}, err
 	}
@@ -127,8 +117,8 @@ func (a *Leaderboard) GetLeaderboardDetail(url string, mode string) (Leaderboard
 }
 
 // GetLeaderboardRecord 获取排行榜记录
-func (a *Leaderboard) GetLeaderboardRecord(url string, mode string) (LeaderboardRecord, error) {
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Get(url)
+func (n *Api) GetLeaderboardRecord(url string, mode string) (LeaderboardRecord, error) {
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Get(url)
 	if err != nil {
 
 		return LeaderboardRecord{}, err

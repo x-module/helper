@@ -6,23 +6,18 @@
  * @desc   account.go
  */
 
-package api
+package nakama
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/x-module/helper/components/nakama/common"
 	"github.com/x-module/helper/components/request"
 	"net/url"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
-
-type Account struct {
-	common.NakamaApi
-}
 
 type AccountInfo struct {
 	Account     AccountData `json:"account"`
@@ -121,14 +116,8 @@ type Payload struct {
 	Headers Headers `json:"headers"`
 }
 
-func NewAccount(token string) *Account {
-	account := new(Account)
-	account.Token = token
-	return account
-}
-
 // GetAccountList 获取用户列表
-func (a *Account) GetAccountList(apiUrl string, filter string, cursor string, mode string) (Accounts, error) {
+func (n *Api) GetAccountList(apiUrl string, filter string, cursor string, mode string) (Accounts, error) {
 	apiUrl = apiUrl + "?a=a"
 	if filter != "" {
 		filter = url.QueryEscape(filter)
@@ -137,7 +126,7 @@ func (a *Account) GetAccountList(apiUrl string, filter string, cursor string, mo
 	if cursor != "" {
 		apiUrl = fmt.Sprintf("%s&cursor=%s", apiUrl, cursor)
 	}
-	response, err := request.NewRequest().Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Get(apiUrl)
+	response, err := request.NewRequest().Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Get(apiUrl)
 	if err != nil {
 		return Accounts{}, err
 	}
@@ -154,7 +143,7 @@ func (a *Account) GetAccountList(apiUrl string, filter string, cursor string, mo
 }
 
 // GetAccountBanList 获取用用列表
-func (a *Account) GetAccountBanList(apiUrl string, UserID string, UserName string, Offset int, Limit int, mode string) ([]BanPlayer, error) {
+func (n *Api) GetAccountBanList(apiUrl string, UserID string, UserName string, Offset int, Limit int, mode string) ([]BanPlayer, error) {
 	params := map[string]any{
 		"user_id":   UserID,
 		"user_name": UserName,
@@ -183,8 +172,8 @@ func (a *Account) GetAccountBanList(apiUrl string, UserID string, UserName strin
 }
 
 // GetAccountDetail 获取用户详情
-func (a *Account) GetAccountDetail(id string, url string, mode string) (AccountInfo, error) {
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Get(url)
+func (n *Api) GetAccountDetail(id string, url string, mode string) (AccountInfo, error) {
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Get(url)
 	if err != nil {
 		return AccountInfo{}, err
 	}
@@ -200,7 +189,7 @@ func (a *Account) GetAccountDetail(id string, url string, mode string) (AccountI
 	return accountInfo, nil
 }
 
-func (a *Account) UpdateAccount(id string, params []byte, url string, mode string) (string, error) {
+func (n *Api) UpdateAccount(id string, params []byte, url string, mode string) (string, error) {
 	type Payload struct {
 		Username    string `json:"username"`
 		DisplayName string `json:"display_name"`
@@ -211,7 +200,7 @@ func (a *Account) UpdateAccount(id string, params []byte, url string, mode strin
 	}
 	var data Payload
 	_ = json.Unmarshal(params, &data)
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Post(url, data)
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Post(url, data)
 	if err != nil {
 		return "", err
 	}
@@ -231,7 +220,7 @@ func (a *Account) UpdateAccount(id string, params []byte, url string, mode strin
 }
 
 // Unlink account unlink
-func (a *Account) Unlink(url string, mode string) error {
+func (n *Api) Unlink(url string, mode string) error {
 	data := Payload{
 		Params: Params{},
 		Headers: Headers{
@@ -247,7 +236,7 @@ func (a *Account) Unlink(url string, mode string) error {
 			LazyInit: LazyInit{},
 		},
 	}
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).Json().SetTimeout(10).Post(url, data)
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).Json().SetTimeout(10).Post(url, data)
 	if err != nil {
 		return err
 	}
@@ -267,7 +256,7 @@ func (a *Account) Unlink(url string, mode string) error {
 }
 
 // ChangeAccount 修改邮箱密码
-func (a *Account) ChangeAccount(email string, password string, url string, mode string) error {
+func (n *Api) ChangeAccount(email string, password string, url string, mode string) error {
 	type Payload struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -277,7 +266,7 @@ func (a *Account) ChangeAccount(email string, password string, url string, mode 
 		Password: password,
 	}
 
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).Json().SetTimeout(10).Post(url, data)
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).Json().SetTimeout(10).Post(url, data)
 	if err != nil {
 		return err
 	}
@@ -297,8 +286,8 @@ func (a *Account) ChangeAccount(email string, password string, url string, mode 
 }
 
 // GetFriends 获取账户朋友
-func (a *Account) GetFriends(url string, mode string) (FriendResponse, error) {
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Get(url)
+func (n *Api) GetFriends(url string, mode string) (FriendResponse, error) {
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Get(url)
 	if err != nil {
 		return FriendResponse{}, err
 	}
@@ -316,8 +305,8 @@ func (a *Account) GetFriends(url string, mode string) (FriendResponse, error) {
 }
 
 // DeleteFriend 删除好友
-func (a *Account) DeleteFriend(url string, mode string) error {
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Delete(url)
+func (n *Api) DeleteFriend(url string, mode string) error {
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Delete(url)
 	if err != nil {
 		return err
 	}
@@ -330,8 +319,8 @@ func (a *Account) DeleteFriend(url string, mode string) error {
 }
 
 // DeleteAccount 删除账户
-func (a *Account) DeleteAccount(url string, mode string) error {
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).SetTimeout(10).Delete(url)
+func (n *Api) DeleteAccount(url string, mode string) error {
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).SetTimeout(10).Delete(url)
 	if err != nil {
 		return err
 	}
@@ -343,7 +332,7 @@ func (a *Account) DeleteAccount(url string, mode string) error {
 	return nil
 }
 
-func (a *Account) Enable(url string, mode string) error {
+func (n *Api) Enable(url string, mode string) error {
 	data := Payload{
 		Params: Params{},
 		Headers: Headers{
@@ -359,7 +348,7 @@ func (a *Account) Enable(url string, mode string) error {
 			LazyInit: LazyInit{},
 		},
 	}
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).Json().SetTimeout(10).Post(url, data)
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).Json().SetTimeout(10).Post(url, data)
 	if err != nil {
 		return err
 	}
@@ -377,7 +366,7 @@ func (a *Account) Enable(url string, mode string) error {
 	}
 	return nil
 }
-func (a *Account) Disable(url string, mode string) error {
+func (n *Api) Disable(url string, mode string) error {
 	data := Payload{
 		Params: Params{},
 		Headers: Headers{
@@ -393,7 +382,7 @@ func (a *Account) Disable(url string, mode string) error {
 			LazyInit: LazyInit{},
 		},
 	}
-	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(a.GetNakamaHeader(a.Token)).Json().SetTimeout(10).Post(url, data)
+	response, err := new(request.Request).Debug(mode == gin.DebugMode).SetHeaders(n.GetNakamaHeader()).Json().SetTimeout(10).Post(url, data)
 	if err != nil {
 		return err
 	}

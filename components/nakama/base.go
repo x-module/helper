@@ -6,7 +6,9 @@
  * @desc   const.go
  */
 
-package common
+package nakama
+
+import "github.com/x-module/helper/xlog"
 
 // AuthenticateApiUrl 登录地址
 const AuthenticateApiUrl = "/v2/console/authenticate"
@@ -41,29 +43,38 @@ const AccountCount = "/v2/rpc/account_count"
 // WalletGet 用户钱包活的
 const WalletGet = "/v2/rpc/wallet/get"
 
-// AddGoods 添加商品
-const AddGoods = "/v2/rpc/add_goods"
-
-// UpdateGoods 更新商品
-const UpdateGoods = "/v2/rpc/update_goods"
-
-type NakamaApi struct {
-	Token string
-}
-type NakamaRpc struct {
+type LoginParams struct {
+	UserName string `json:"username"`
+	Password string `json:"password"`
+	SignKey  string `json:"sign_key"`
 }
 
-// GetNakamaHeader 获取请求header
-func (n *NakamaRpc) GetNakamaHeader() map[string]string {
-	return map[string]string{
-		"Content-Type": "application/json",
-		"Accept":       "application/json",
+// LoginToken 身份验证token
+type LoginToken struct {
+	Token string   `json:"token"`
+	Uname string   `json:"uname"`
+	Email string   `json:"email"`
+	Role  UserRole `json:"role"`
+}
+
+type Api struct {
+	host        string
+	loginParams LoginParams
+	mode        xlog.LogMode
+	Token       LoginToken
+}
+
+func NewNakamaApi(host string, mode xlog.LogMode) *Api {
+	return &Api{
+		host:  host,
+		mode:  mode,
+		Token: LoginToken{},
 	}
 }
 
 // GetNakamaHeader 获取请求header
-func (n *NakamaApi) GetNakamaHeader(token string) map[string]string {
-	Authorization := "Bearer " + token
+func (n *Api) GetNakamaHeader() map[string]string {
+	Authorization := "Bearer " + n.Token.Token
 	return map[string]string{
 		"Authority":       "contractors.us-east1.nakamacloud.io",
 		"Accept":          "application/json, text/plain, */*",
