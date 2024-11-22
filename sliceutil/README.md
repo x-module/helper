@@ -1,7 +1,7 @@
 ### 操作切片的方法集合。
 
 ```go
-import "github.com/x-module/utils/slice"
+import "github.com/x-module/helper/slice"
 ```
 
 #### 函数列表:

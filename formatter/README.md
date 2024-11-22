@@ -1,7 +1,7 @@
 ##  格式化器包含一些数据格式化处理方法。
 
 ```go
-import "github.com/x-module/utils/formatter"
+import "github.com/x-module/helper/formatter"
 ```
 
 #### 函数列表:

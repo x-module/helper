@@ -9,7 +9,6 @@
 package strutil
 
 import (
-	"fmt"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -19,7 +18,6 @@ import (
 func CamelCase(s string) string {
 	var builder strings.Builder
 	strs := splitIntoStrings(s, false)
-	fmt.Printf("%+v\n", strs)
 	for i, str := range strs {
 		if i == 0 {
 			builder.WriteString(strings.ToLower(str))

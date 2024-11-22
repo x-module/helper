@@ -2,7 +2,7 @@
 ### 13. netutil 网络包支持获取 ip 地址，发送 http 请求。
 
 ```go
-import "github.com/x-module/utils/netutil"
+import "github.com/x-module/helper/netutil"
 ```
 
 #### 函数列表:

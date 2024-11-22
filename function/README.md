@@ -1,7 +1,7 @@
 ##  函数包控制函数执行流程，包含部分函数式编程。
 
 ```go
-import "github.com/x-module/utils/function"
+import "github.com/x-module/helper/function"
 ```
 
 #### 函数列表:

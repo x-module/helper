@@ -1,7 +1,7 @@
 ## 数据转换处理的相关函数
 
 ```go
-import "github.com/x-module/utils/strutil"
+import "github.com/x-module/helper/strutil"
 ```
 
 #### 函数列表:

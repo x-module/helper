@@ -1,7 +1,7 @@
 ## 加密包支持数据加密和解密，获取 md5，hash 值。支持 base64, md5, hmac, aes, des, rsa。
 
 ```go
-import "github.com/x-module/utils/cryptor"
+import "github.com/x-module/helper/cryptor"
 ```
 
 #### 函数列表:

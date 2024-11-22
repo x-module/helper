@@ -1,7 +1,7 @@
 ### 验证器包，包含常用字符串格式验证函数。
 
 ```go
-import "github.com/x-module/utils/validator"
+import "github.com/x-module/helper/validator"
 ```
 
 #### 函数列表:

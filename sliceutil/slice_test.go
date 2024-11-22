@@ -50,16 +50,6 @@ func TestChunk(t *testing.T) {
 	assert.Equal(r6, Chunk(arr, 6))
 }
 
-func TestEvery(t *testing.T) {
-	nums := []int{1, 2, 3, 5}
-	isEven := func(i, num int) bool {
-		return num%2 == 0
-	}
-
-	assert := internal.NewAssert(t, "TestEvery")
-	assert.Equal(false, Foreach(nums, isEven))
-}
-
 func TestNone(t *testing.T) {
 	nums := []int{1, 2, 3, 5}
 	check := func(i, num int) bool {

@@ -21,7 +21,7 @@ func TestGetPublicIpInfo(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Log("GetPublicIpInfo success,info:")
-	debug.Display(info)
+	debug.DumpPrint(info)
 }
 
 func TestGetInternalIp(t *testing.T) {

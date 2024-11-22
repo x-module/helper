@@ -1,7 +1,7 @@
 ## MAP处理的相关函数
 
 ```go
-import "github.com/x-module/utils/maputil"
+import "github.com/x-module/helper/maputil"
 ```
 
 #### 函数列表:

@@ -1,7 +1,7 @@
 ##  包含文件基本操作。
 
 ```go
-import "github.com/x-module/utils/fileutil"
+import "github.com/x-module/helper/fileutil"
 ```
 
 #### 函数列表：

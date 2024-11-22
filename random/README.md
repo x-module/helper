@@ -2,7 +2,7 @@
 ### 随机数生成器包，可以生成随机[]bytes, int, string。
 
 ```go
-import "github.com/x-module/utils/random"
+import "github.com/x-module/helper/random"
 ```
 
 #### 函数列表:
