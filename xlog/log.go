@@ -80,6 +80,36 @@ func (x *Xlogger) Fatal(args ...any) {
 	x.logger.Fatal(args...)
 }
 
+// Debugf 调试日志
+func (x *Xlogger) Debugf(format string, args ...interface{}) {
+	x.logger.Debugf(format, args)
+}
+
+// Infof 信息日志
+func (x *Xlogger) Infof(format string, args ...interface{}) {
+	x.logger.Infof(format, args)
+}
+
+// Warnf 警告日志
+func (x *Xlogger) Warnf(format string, args ...interface{}) {
+	x.logger.Warnf(format, args)
+}
+
+// Warningf 警告日志
+func (x *Xlogger) Warningf(format string, args ...interface{}) {
+	x.logger.Warnf(format, args)
+}
+
+// Errorf 错误日志
+func (x *Xlogger) Errorf(format string, args ...interface{}) {
+	x.logger.Errorf(format, args)
+}
+
+// Fatalf 致命错误日志
+func (x *Xlogger) Fatalf(format string, args ...interface{}) {
+	x.logger.Fatalf(format, args)
+}
+
 // GetLoggerSource 获取日志资源
 func (x *Xlogger) GetLoggerSource() *logrus.Logger {
 	return x.logger
