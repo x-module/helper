@@ -2,12 +2,9 @@ module github.com/x-module/helper
 
 go 1.22
 
-toolchain go1.22.9
-
 require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/docker/docker v27.3.1+incompatible
-	github.com/druidcaesa/gotool v0.0.0-20220613023420-645c641d1304
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/google/go-github/v66 v66.0.0
@@ -46,7 +43,6 @@ require (
 	github.com/docker/go-connections v0.5.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
-	github.com/fogleman/gg v1.3.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.7 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect

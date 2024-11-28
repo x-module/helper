@@ -10,9 +10,9 @@ package chart
 
 import (
 	"fmt"
-	"github.com/druidcaesa/gotool"
 	"github.com/wcharczuk/go-chart"
 	"github.com/wcharczuk/go-chart/util"
+	"github.com/x-module/helper/fileutil"
 	"os"
 	"time"
 )
@@ -108,7 +108,7 @@ func (c *Chart) Generate(xValues []time.Time, yValues []float64, dirPath string)
 		},
 	}
 
-	if !gotool.FileUtils.Exists(dirPath) {
+	if !fileutil.IsExist(dirPath) {
 		err := os.MkdirAll(dirPath, os.ModePerm)
 		if err != nil {
 			return "", err
