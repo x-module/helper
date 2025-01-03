@@ -12,8 +12,19 @@ import (
 	"context"
 	"fmt"
 	"os/exec"
+	"runtime"
 	"strings"
 	"time"
+)
+
+const (
+	Gray = uint8(iota + 90)
+	Red
+	Green
+	Yellow
+	Blue
+	Magenta
+	EndColor = "\033[0m"
 )
 
 type OutFunc func(string)
@@ -86,4 +97,77 @@ func (e *Execute) ExecuteCommand(ctx context.Context, command string, args ...st
 	}
 
 	return nil
+}
+
+func (e *Execute) ColorLogS(format string, a ...interface{}) string {
+	log := fmt.Sprintf(format, a...)
+
+	var clog string
+
+	if runtime.GOOS != "windows" {
+		// Level.
+		i := strings.Index(log, "]")
+		if log[0] == '[' && i > -1 {
+			clog += "[" + e.getColorLevel(log[1:i]) + "]"
+		}
+
+		log = log[i+1:]
+
+		// Error.
+		log = strings.Replace(log, "[ ", fmt.Sprintf("[\033[%dm", Red), -1)
+		log = strings.Replace(log, " ]", EndColor+"]", -1)
+
+		// Path.
+		log = strings.Replace(log, "( ", fmt.Sprintf("(\033[%dm", Yellow), -1)
+		log = strings.Replace(log, " )", EndColor+")", -1)
+
+		// Highlights.
+		log = strings.Replace(log, "# ", fmt.Sprintf("\033[%dm", Gray), -1)
+		log = strings.Replace(log, " #", EndColor, -1)
+
+	} else {
+		// Level.
+		i := strings.Index(log, "]")
+		if log[0] == '[' && i > -1 {
+			clog += "[" + log[1:i] + "]"
+		}
+
+		log = log[i+1:]
+
+		// Error.
+		log = strings.Replace(log, "[ ", "[", -1)
+		log = strings.Replace(log, " ]", "]", -1)
+
+		// Path.
+		log = strings.Replace(log, "( ", "(", -1)
+		log = strings.Replace(log, " )", ")", -1)
+
+		// Highlights.
+		log = strings.Replace(log, "# ", "", -1)
+		log = strings.Replace(log, " #", "", -1)
+	}
+	return clog + log
+}
+
+// ColorLog prints colored log to stdout.
+// See color rules in function 'ColorLogS'.
+func (e *Execute) ColorLog(format string, a ...interface{}) {
+	fmt.Print(e.ColorLogS(format, a...))
+}
+
+// getColorLevel returns colored level string by given level.
+func (e *Execute) getColorLevel(level string) string {
+	level = strings.ToUpper(level)
+	switch level {
+	case "TRAC":
+		return fmt.Sprintf("\033[%dm%s\033[0m", Blue, level)
+	case "ERRO":
+		return fmt.Sprintf("\033[%dm%s\033[0m", Red, level)
+	case "WARN":
+		return fmt.Sprintf("\033[%dm%s\033[0m", Magenta, level)
+	case "SUCC":
+		return fmt.Sprintf("\033[%dm%s\033[0m", Green, level)
+	default:
+		return level
+	}
 }

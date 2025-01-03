@@ -24,6 +24,16 @@ import (
 	"strings"
 )
 
+// IsFile returns true if given path is a file,
+// or returns false when it's a directory or does not exist.
+func IsFile(filePath string) bool {
+	f, e := os.Stat(filePath)
+	if e != nil {
+		return false
+	}
+	return !f.IsDir()
+}
+
 // IsExist 检查文件or目录是否存在
 func IsExist(path string) bool {
 	_, err := os.Stat(path)
@@ -45,20 +55,6 @@ func CreateFile(path string) bool {
 
 	defer file.Close()
 	return true
-}
-
-// CreateDir 在绝对路径下创建目录。参数' absPath '像/a/， /a/b/。
-func CreateDir(absPath string) error {
-	return os.MkdirAll(absPath, os.ModePerm)
-}
-
-// IsDir 检查路径是否为directory。
-func IsDir(path string) bool {
-	file, err := os.Stat(path)
-	if err != nil {
-		return false
-	}
-	return file.IsDir()
 }
 
 // RemoveFile 删除文件
@@ -349,8 +345,50 @@ func ReadCSV(fileName string) ([][]string, error) {
 	defer file.Close()
 	reader1 := transform.NewReader(file, simplifiedchinese.GBK.NewDecoder())
 	reader := csv.NewReader(reader1)
-	reader.Comma = ','       //添加
-	reader.LazyQuotes = true //添加
+	reader.Comma = ','       // 添加
+	reader.LazyQuotes = true // 添加
 	reader.FieldsPerRecord = -1
 	return reader.ReadAll()
+}
+
+// Copy copies file from source to target path.
+func Copy(src, dest string) error {
+	// Gather file information to set back later.
+	si, err := os.Lstat(src)
+	if err != nil {
+		return err
+	}
+
+	// Handle symbolic link.
+	if si.Mode()&os.ModeSymlink != 0 {
+		target, err := os.Readlink(src)
+		if err != nil {
+			return err
+		}
+		// NOTE: os.Chmod and os.Chtimes don't recoganize symbolic link,
+		// which will lead "no such file or directory" error.
+		return os.Symlink(target, dest)
+	}
+
+	sr, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer sr.Close()
+
+	dw, err := os.Create(dest)
+	if err != nil {
+		return err
+	}
+	defer dw.Close()
+
+	if _, err = io.Copy(dw, sr); err != nil {
+		return err
+	}
+
+	// Set back file information.
+	if err = os.Chtimes(dest, si.ModTime(), si.ModTime()); err != nil {
+		return err
+	}
+	return os.Chmod(dest, si.Mode())
 }

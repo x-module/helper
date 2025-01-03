@@ -11,6 +11,7 @@ import "github.com/x-module/helper/strutil"
 - **<big>Before</big>** : 返回源字符串中指定字符串第一次出现时的位置之前的子字符串。
 - **<big>BeforeLast</big>** : 返回源字符串中指定字符串最后一次出现时的位置之前的子字符串。
 - **<big>CamelCase</big>** : 将字符串转换为 CamelCase 驼峰式字符串, 非字母和数字会被忽略。
+- **<big>UnderScoreCase</big>** : 驼峰转下划线。
 - **<big>Capitalize</big>** : 将字符串的第一个字符转换为大写。
 - **<big>IsString</big>** : 判断传入参数的数据类型是否为字符串。
 - **<big>KebabCase</big>** : 将字符串转换为 kebab-case 形式字符串, 非字母和数字会被忽略。
