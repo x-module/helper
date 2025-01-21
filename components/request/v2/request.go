@@ -81,7 +81,7 @@ func (r *Request) CommonPostRequest(url string, params map[string]string) (*gent
 	}
 	r.Client.Use(body.String(formData.Encode()))
 	r.Client.Use(headers.Set("Content-Type", "application/x-www-form-urlencoded"))
-	response, err := r.Client.URL(url).Get().Send()
+	response, err := r.Client.URL(url).Post().Send()
 	if err != nil {
 		return nil, err
 	}
