@@ -6,4 +6,4 @@
  * @desc   request_test.go
  */
 
-package v2
+package request
