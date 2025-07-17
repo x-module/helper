@@ -87,27 +87,27 @@ func (x *Xlogger) Debugf(format string, args ...interface{}) {
 
 // Infof 信息日志
 func (x *Xlogger) Infof(format string, args ...interface{}) {
-	x.logger.Infof(fmt.Sprintf(format, args))
+	x.logger.Info(fmt.Sprintf(format, args))
 }
 
 // Warnf 警告日志
 func (x *Xlogger) Warnf(format string, args ...interface{}) {
-	x.logger.Warnf(fmt.Sprintf(format, args))
+	x.logger.Warn(fmt.Sprintf(format, args))
 }
 
 // Warningf 警告日志
 func (x *Xlogger) Warningf(format string, args ...interface{}) {
-	x.logger.Warnf(fmt.Sprintf(format, args))
+	x.logger.Warn(fmt.Sprintf(format, args))
 }
 
 // Errorf 错误日志
 func (x *Xlogger) Errorf(format string, args ...interface{}) {
-	x.logger.Errorf(fmt.Sprintf(format, args))
+	x.logger.Error(fmt.Sprintf(format, args))
 }
 
 // Fatalf 致命错误日志
 func (x *Xlogger) Fatalf(format string, args ...interface{}) {
-	x.logger.Fatalf(fmt.Sprintf(format, args))
+	x.logger.Fatal(fmt.Sprintf(format, args))
 }
 
 // GetLoggerSource 获取日志资源
@@ -128,7 +128,6 @@ func InitLogger(config LogConfig) *Xlogger {
 		xerror.PanicErr(err, "init system error. make log data err.path:"+config.LogFile)
 	}
 	fileName := path.Join(config.LogPath, config.LogFile)
-	fmt.Println("log file path:", fileName)
 	if !fileutil.IsExist(fileName) {
 		fileutil.CreateFile(fileName)
 		if !fileutil.IsExist(fileName) {

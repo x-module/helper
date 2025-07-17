@@ -9,6 +9,7 @@
 package xlog
 
 import (
+	"fmt"
 	"github.com/sirupsen/logrus"
 )
 
@@ -49,30 +50,30 @@ func Fatal(args ...any) {
 
 // Debugf 调试日志
 func Debugf(format string, args ...interface{}) {
-	Logger.Debugf(format, args)
+	Logger.Debug(fmt.Sprintf(format, args...))
 }
 
 // Infof 信息日志
 func Infof(format string, args ...interface{}) {
-	Logger.Infof(format, args)
+	Logger.Info(fmt.Sprintf(format, args...))
 }
 
 // Warnf 警告日志
 func Warnf(format string, args ...interface{}) {
-	Logger.Warnf(format, args)
+	Logger.Warn(fmt.Sprintf(format, args...))
 }
 
 // Warningf 警告日志
 func Warningf(format string, args ...interface{}) {
-	Logger.Warnf(format, args)
+	Logger.Warn(fmt.Sprintf(format, args...))
 }
 
 // Errorf 错误日志
 func Errorf(format string, args ...interface{}) {
-	Logger.Errorf(format, args)
+	Logger.Error(fmt.Sprintf(format, args...))
 }
 
 // Fatalf 致命错误日志
 func Fatalf(format string, args ...interface{}) {
-	Logger.Fatalf(format, args)
+	Logger.Fatal(fmt.Sprintf(format, args...))
 }
