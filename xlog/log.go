@@ -35,7 +35,6 @@ const (
 )
 
 type XLogInter interface {
-	LogInter
 	// GetLoggerSource 获取日志资源
 	GetLoggerSource() *logrus.Logger
 }
@@ -51,62 +50,32 @@ func (x *Xlogger) WithField(key string, value any) *logrus.Entry {
 }
 
 // Debug 调试日志
-func (x *Xlogger) Debug(args ...any) {
-	x.logger.Debug(args...)
-}
-
-// Info 信息日志
-func (x *Xlogger) Info(args ...any) {
-	x.logger.Info(args...)
-}
-
-// Warn 警告日志
-func (x *Xlogger) Warn(args ...any) {
-	x.logger.Warn(args...)
-}
-
-// Warning 警告日志
-func (x *Xlogger) Warning(args ...any) {
-	x.logger.Warn(args...)
-}
-
-// Error 错误日志
-func (x *Xlogger) Error(args ...any) {
-	x.logger.Error(args...)
-}
-
-// Fatal 致命错误日志
-func (x *Xlogger) Fatal(args ...any) {
-	x.logger.Fatal(args...)
-}
-
-// Debugf 调试日志
-func (x *Xlogger) Debugf(format string, args ...interface{}) {
+func (x *Xlogger) Debug(format string, args ...interface{}) {
 	x.logger.Debug(fmt.Sprintf(format, args))
 }
 
-// Infof 信息日志
-func (x *Xlogger) Infof(format string, args ...interface{}) {
+// Info 信息日志
+func (x *Xlogger) Info(format string, args ...interface{}) {
 	x.logger.Info(fmt.Sprintf(format, args))
 }
 
-// Warnf 警告日志
-func (x *Xlogger) Warnf(format string, args ...interface{}) {
+// Warn 警告日志
+func (x *Xlogger) Warn(format string, args ...interface{}) {
 	x.logger.Warn(fmt.Sprintf(format, args))
 }
 
-// Warningf 警告日志
-func (x *Xlogger) Warningf(format string, args ...interface{}) {
+// Warning 警告日志
+func (x *Xlogger) Warning(format string, args ...interface{}) {
 	x.logger.Warn(fmt.Sprintf(format, args))
 }
 
-// Errorf 错误日志
-func (x *Xlogger) Errorf(format string, args ...interface{}) {
+// Error 错误日志
+func (x *Xlogger) Error(format string, args ...interface{}) {
 	x.logger.Error(fmt.Sprintf(format, args))
 }
 
-// Fatalf 致命错误日志
-func (x *Xlogger) Fatalf(format string, args ...interface{}) {
+// Fatal 致命错误日志
+func (x *Xlogger) Fatal(format string, args ...interface{}) {
 	x.logger.Fatal(fmt.Sprintf(format, args))
 }
 

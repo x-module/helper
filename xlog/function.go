@@ -60,7 +60,7 @@ func Infof(format string, args ...interface{}) {
 
 // Warnf 警告日志
 func Warnf(format string, args ...interface{}) {
-	Logger.Warn(fmt.Sprintf(format, args...))
+	Logger.Warnf(fmt.Sprintf(format, args...))
 }
 
 // Warningf 警告日志
