@@ -12,7 +12,7 @@ func main() {
 	}).SetHeaders(map[string]string{
 		"auth": "super man",
 		"sign": "sign the request",
-	}).Debug().SetTimeout(1).Json().Get("http://127.0.0.1:9090", map[string]interface{}{
+	}).Debug().SetTimeout(1).Json().Get("http://127.0.0.1:9090", map[string]any{
 		"username": "username",
 		"password": "password",
 	})

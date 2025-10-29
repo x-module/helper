@@ -50,33 +50,33 @@ func (x *Xlogger) WithField(key string, value any) *logrus.Entry {
 }
 
 // Debug 调试日志
-func (x *Xlogger) Debug(format string, args ...interface{}) {
-	x.logger.Debug(fmt.Sprintf(format, args))
+func (x *Xlogger) Debug(format string, args ...any) {
+	x.logger.Debug(fmt.Sprintf(format, args...))
 }
 
 // Info 信息日志
-func (x *Xlogger) Info(format string, args ...interface{}) {
-	x.logger.Info(fmt.Sprintf(format, args))
+func (x *Xlogger) Info(format string, args ...any) {
+	x.logger.Info(fmt.Sprintf(format, args...))
 }
 
 // Warn 警告日志
-func (x *Xlogger) Warn(format string, args ...interface{}) {
-	x.logger.Warn(fmt.Sprintf(format, args))
+func (x *Xlogger) Warn(format string, args ...any) {
+	x.logger.Warn(fmt.Sprintf(format, args...))
 }
 
 // Warning 警告日志
-func (x *Xlogger) Warning(format string, args ...interface{}) {
-	x.logger.Warn(fmt.Sprintf(format, args))
+func (x *Xlogger) Warning(format string, args ...any) {
+	x.logger.Warn(fmt.Sprintf(format, args...))
 }
 
 // Error 错误日志
-func (x *Xlogger) Error(format string, args ...interface{}) {
-	x.logger.Error(fmt.Sprintf(format, args))
+func (x *Xlogger) Error(format string, args ...any) {
+	x.logger.Error(fmt.Sprintf(format, args...))
 }
 
 // Fatal 致命错误日志
-func (x *Xlogger) Fatal(format string, args ...interface{}) {
-	x.logger.Fatal(fmt.Sprintf(format, args))
+func (x *Xlogger) Fatal(format string, args ...any) {
+	x.logger.Fatal(fmt.Sprintf(format, args...))
 }
 
 // GetLoggerSource 获取日志资源

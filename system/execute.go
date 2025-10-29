@@ -99,7 +99,7 @@ func (e *Execute) ExecuteCommand(ctx context.Context, command string, args ...st
 	return nil
 }
 
-func (e *Execute) ColorLogS(format string, a ...interface{}) string {
+func (e *Execute) ColorLogS(format string, a ...any) string {
 	log := fmt.Sprintf(format, a...)
 
 	var clog string
@@ -151,7 +151,7 @@ func (e *Execute) ColorLogS(format string, a ...interface{}) string {
 
 // ColorLog prints colored log to stdout.
 // See color rules in function 'ColorLogS'.
-func (e *Execute) ColorLog(format string, a ...interface{}) {
+func (e *Execute) ColorLog(format string, a ...any) {
 	fmt.Print(e.ColorLogS(format, a...))
 }
 
