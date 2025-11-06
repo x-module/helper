@@ -10,6 +10,9 @@ package request
 
 import (
 	"fmt"
+	"net/http"
+	url2 "net/url"
+
 	"github.com/x-module/helper/components/request/plugins"
 	retry "gopkg.in/h2non/gentleman-retry.v2"
 	"gopkg.in/h2non/gentleman.v2"
@@ -17,8 +20,6 @@ import (
 	"gopkg.in/h2non/gentleman.v2/plugins/body"
 	"gopkg.in/h2non/gentleman.v2/plugins/headers"
 	"gopkg.in/h2non/gentleman.v2/plugins/transport"
-	"net/http"
-	url2 "net/url"
 )
 
 type Request struct {
@@ -96,8 +97,8 @@ func (r *Request) JsonPostRequest(url string, params any) (*gentleman.Response, 
 	if err != nil {
 		return nil, err
 	}
-	if !response.Ok {
-		return nil, fmt.Errorf("invalid server response: %d", response.StatusCode)
-	}
+	//if !response.Ok {
+	//	return nil, fmt.Errorf("invalid server response: %d", response.StatusCode)
+	//}
 	return response, nil
 }
